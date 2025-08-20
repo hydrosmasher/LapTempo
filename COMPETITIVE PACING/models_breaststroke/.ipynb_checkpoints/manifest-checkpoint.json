@@ -1,6 +1,0 @@
-{
-  "frac_1": "Ridge(alpha=0.5, random_state=42)",
-  "frac_2": "Ridge(alpha=0.5, random_state=42)",
-  "frac_3": "SVR(C=10)",
-  "frac_4": "SVR(C=10)"
-}

@@ -1,14 +1,28 @@
-# Swim Forge (Reverted UI)
-Reverted to the simpler UI (no photo backgrounds). Banner & logo remain, inputs & functionality are unchanged.
+# SwimForge – Secure Auth, Banner/Logo, Reset/Close Buttons
+
+Features:
+- **Secure registration/login** with bcrypt hashing and optional Fernet encryption at rest.
+- **Banner/logo support**: place `assets/banner.png` and `assets/logo.png` in `./assets/`.
+- **Pre-race planner**: Even pacing distribution only (strategy removed).
+- **Post-race analyzer**: Paste splits (50/100), PB input, metrics & recommendations.
+- **Reset App button** clears session and reruns.
+- **Close App button** clears state and halts execution (stop Streamlit server manually with Ctrl+C).
 
 ## Run
 ```bash
 pip install -r requirements.txt
+mkdir -p assets
 streamlit run app.py
 ```
 
-## Notes
-- Deep Learning toggle is visible only if a model file exists in `models/` (`pacing_head.pt` or `pacing_head.pkl`). This repo ships **without** model binaries.
-- PNG export of charts requires `vl-convert-python`.
-- SVG banner/logo are in `assets/`. Use `cairosvg` to generate PNGs if desired.
-- Generated: 2025-08-16T11:11:25.397573
+## Enable encryption at rest
+Generate a Fernet key once:
+```python
+from cryptography.fernet import Fernet
+print(Fernet.generate_key().decode())
+```
+Add it to `.streamlit/secrets.toml`:
+```toml
+[auth]
+fernet_key = "PASTE_KEY"
+```

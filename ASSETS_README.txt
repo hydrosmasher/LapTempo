@@ -1,14 +1,9 @@
 SwimForge Assets
 -----------------
-Files:
-- assets/banner.svg  (includes "Powered by HydroSmasher")
-- assets/logo.svg
-- assets/banner.png  (generate with cairosvg if this is a placeholder)
-- assets/logo.png    (generate with cairosvg if this is a placeholder)
+Files (place these under ./assets):
+- assets/banner.svg  (optional)
+- assets/logo.svg    (optional)
+- assets/banner.png  (optional)
+- assets/logo.png    (optional)
 
-Integrate in app.py:
-- At the top of landing_page() and race_split_page(), add:
-    st.image('assets/banner.png', use_column_width=True)
-
-- In the sidebar (e.g., in app_nav() before 'Account'):
-    st.sidebar.image('assets/logo.png', width=72)
+This UI uses a CSS gradient hero, so assets are optional. If provided, feel free to add them later.

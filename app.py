@@ -1,396 +1,269 @@
-# app.py — Swim Forge (reverted UI: no page backgrounds, keeps banner/logo & theme)
-
-import os
-from pathlib import Path
-from datetime import date
-from io import BytesIO
-
-import streamlit as st
-import pandas as pd
+# SwimForge – Full App with Reset & Close buttons, Banner/Logo, Secure Auth
+from __future__ import annotations
+import os, math, json
+from typing import List, Tuple, Dict
+from datetime import date, datetime
 import numpy as np
+import pandas as pd
+import streamlit as st
 import altair as alt
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
 
-# Local modules (must exist in your repo)
-from src.auth import register, login
-from src.pacing_simulator import RuleBasedPacer, DLPacingPredictor
-from src.utils.helpers import parse_semicolon_splits, even_split
+try:
+    from cryptography.fernet import Fernet
+    FERNET_AVAILABLE = True
+except Exception:
+    FERNET_AVAILABLE = False
 
-# ---------- Page config ----------
-st.set_page_config(page_title="Swim Forge", page_icon="🏊", layout="wide")
+try:
+    import bcrypt
+    HAS_BCRYPT = True
+except Exception:
+    HAS_BCRYPT = False
 
-# ---------- THEME (pool-styled, no image backgrounds) ----------
-def inject_theme_css():
-    st.markdown(
-        """
-        <style>
-        /* Sidebar soft gradient */
-        section[data-testid="stSidebar"] > div {
-          background: linear-gradient(180deg, #EAF0FF 0%, #F6F9FF 100%);
-        }
+APP_TITLE = "SwimForge"
+APP_TAGLINE = "Where Science Shapes Speed"
+POWERED_BY = "Powered by HydroSmasher"
 
-        /* Buttons (primary + downloads) */
-        .stButton>button, .stDownloadButton>button {
-          background: linear-gradient(135deg, #7DD3FC 0%, #A78BFA 100%);
-          color: white !important;
-          border: none;
-          border-radius: 10px;
-          padding: 0.5rem 1rem;
-          box-shadow: 0 6px 14px rgba(90,102,241,0.15);
-        }
-        .stButton>button:hover, .stDownloadButton>button:hover {
-          filter: brightness(1.03);
-          box-shadow: 0 8px 18px rgba(90,102,241,0.25);
-        }
-        .stButton>button:active, .stDownloadButton>button:active { transform: translateY(1px); }
+ASSETS_BANNER = "assets/banner.png"
+ASSETS_LOGO = "assets/logo.png"
 
-        /* Inputs: subtle rounding */
-        div[data-baseweb="select"] > div,
-        .stTextInput>div>div>input,
-        .stNumberInput input,
-        .stDateInput input,
-        .stRadio > div,
-        .stTextArea textarea {
-          border-radius: 10px !important;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
+st.set_page_config(page_title=APP_TITLE, page_icon="🏊", layout="wide")
 
-inject_theme_css()
+# ---------- Styling ----------
+st.markdown("""
+<style>
+.block-container {padding-top: 0rem; padding-bottom: 3rem; max-width: 1200px;}
+.hero { border-radius: 18px; padding: 16px 20px; margin: 14px 0 18px 0;
+  background: linear-gradient(135deg, #0D1A35 0%, #0B1430 60%, #0A122C 100%);
+  border: 1px solid rgba(120,150,255,0.12); text-align: center; }
+.hero h1 { margin: 8px 0 0 0; font-size: 40px;}
+.hero .sub { margin-top: 4px; opacity: 0.9;}
+.hero .powered { margin-top: 2px; font-size: 12px; opacity: 0.65;}
+.sf-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(120,150,255,0.12);
+  border-radius: 16px; padding: 18px; margin-bottom: 16px;}
+.stButton>button { border-radius: 12px; padding: 10px 16px; font-weight: 600;
+  border: 1px solid rgba(120,150,255,0.25);}
+header {visibility: hidden;}
+</style>
+""", unsafe_allow_html=True)
 
-# ---------- Session bootstrap ----------
-if "user" not in st.session_state:
-    st.session_state.user = None
+# ---------- Auth utils ----------
+USERS_PATH_PLAIN = os.path.join(".data", "users.json")
+USERS_PATH_ENC = os.path.join(".data", "users.enc")
 
-# ---------- Helpers ----------
-def _dl_weights_available() -> bool:
-    pt_ok = os.path.exists("models/pacing_head.pt") and os.path.getsize("models/pacing_head.pt") > 0
-    pkl_ok = os.path.exists("models/pacing_head.pkl") and os.path.getsize("models/pacing_head.pkl") > 0
-    return pt_ok or pkl_ok
-
-def create_pdf_report(metadata: dict, chart_pngs: list[bytes]) -> BytesIO:
-    buffer = BytesIO()
-    c = canvas.Canvas(buffer, pagesize=letter)
-    width, height = letter
-
-    c.setFont("Helvetica-Bold", 16)
-    c.drawString(50, height - 50, "Swim Forge Race Report")
-
-    c.setFont("Helvetica", 10)
-    y = height - 80
-    for key, val in metadata.items():
-        c.drawString(50, y, f"{key}: {val}")
-        y -= 12
-
-    for img_bytes in chart_pngs:
-        if not img_bytes:
-            continue
-        img_stream = BytesIO(img_bytes)
-        c.drawImage(img_stream, 50, y - 200, width=500, height=200, preserveAspectRatio=True, anchor="sw")
-        y -= 220
-
-    c.showPage()
-    c.save()
-    buffer.seek(0)
-    return buffer
-
-def chart_to_png(chart, scale: int = 2):
+def _get_fernet():
+    if not FERNET_AVAILABLE: return None
+    key = None
     try:
-        import vl_convert as vlc
-        spec = chart.to_dict()
-        return vlc.vegalite_to_png(spec, scale=scale)
-    except Exception:
-        st.warning("PNG export requires 'vl-convert-python'. Run: pip install vl-convert-python")
-        return None
+        if "auth" in st.secrets and "fernet_key" in st.secrets["auth"]:
+            key = st.secrets["auth"]["fernet_key"]
+    except Exception: pass
+    if not key: key = os.getenv("FERNET_KEY", "")
+    if not key: return None
+    try: return Fernet(key.encode() if not key.startswith("gAAAA") else key)
+    except Exception: return None
 
-def show_banner():
-    png_path = Path("assets/banner.png")
-    svg_path = Path("assets/banner.svg")
-    if png_path.exists():
-        st.image(str(png_path), use_container_width=True)
-    elif svg_path.exists():
-        svg_content = svg_path.read_text(encoding="utf-8")
-        st.markdown(
-            f"""
-            <div style="max-width:100%; max-height:180px; overflow:hidden; display:flex; justify-content:center;">
-              {svg_content}
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+def _bcrypt_hash(pw: str) -> str:
+    return bcrypt.hashpw(pw.encode(), bcrypt.gensalt(rounds=12)).decode()
 
-def show_logo():
-    png_path = Path("assets/logo.png")
-    svg_path = Path("assets/logo.svg")
-    if png_path.exists():
-        st.sidebar.image(str(png_path), use_container_width=True)
-    elif svg_path.exists():
-        svg_content = svg_path.read_text(encoding="utf-8")
-        st.sidebar.markdown(
-            f"""
-            <div style="max-width:100%; max-height:60px; overflow:hidden; display:flex; justify-content:center;">
-              {svg_content}
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+def _bcrypt_check(pw: str, hashed: str) -> bool:
+    try: return bcrypt.checkpw(pw.encode(), hashed.encode())
+    except Exception: return False
 
-# ---------- Pages ----------
-def landing_page():
-    show_banner()
-    st.title("🏊 Swim Forge")
-    st.subheader("Competitive pacing • Race analysis • Training tools")
-
-    tab_login, tab_register = st.tabs(["Login", "Register"])
-
-    with tab_login:
-        with st.form("login_form", clear_on_submit=False):
-            le = st.text_input("Email", placeholder="you@gmail.com")
-            lp = st.text_input("Password", type="password")
-            submitted = st.form_submit_button("Login")
-        if submitted:
-            ok, msg, user = login(le, lp)
-            if ok:
-                st.session_state.user = user
-                st.session_state.page = "Race Split (Pre/Post)"
-                st.success(f"{msg} — Welcome back, {user['email']}")
-                st.rerun()
-            else:
-                st.error(msg)
-
-    with tab_register:
-        with st.form("register_form", clear_on_submit=False):
-            re = st.text_input("Email", placeholder="you@gmail.com", key="re")
-            rp = st.text_input("Password", type="password", key="rp")
-            submitted_r = st.form_submit_button("Create account")
-        if submitted_r:
-            ok, msg = register(re, rp)
-            if ok:
-                st.success(msg + " You can now log in.")
-            else:
-                st.error(msg)
-
-def app_nav():
-    if st.session_state.user and "page" not in st.session_state:
-        st.session_state.page = "Race Split (Pre/Post)"
-
-    show_logo()
-    st.sidebar.header("Account")
-    user = st.session_state.user
-    st.sidebar.success(f"Logged in as: {user['email']}")
-    st.sidebar.caption(f"Athlete ID: {user['athlete_id']}")
-
-    if st.sidebar.button("Log out"):
-        st.session_state.clear()
-        st.rerun()
-
-    st.sidebar.divider()
-    if st.sidebar.button("Reset App"):
-        st.session_state.clear()
-        st.success("App state cleared. Reloading…")
-        st.rerun()
-
-    if st.sidebar.button("Close App"):
-        st.info("Session terminated. You can close the browser tab.")
-        st.stop()
-
-    st.sidebar.header("Navigation")
-    page = st.sidebar.radio("Go to", ["Race Split (Pre/Post)", "Home (About)"], index=0, key="page")
-
-    if page == "Home (About)":
-        st.title("🏊 Swim Forge — Home")
-        st.write(
-            """
-            Welcome to **Swim Forge**. Use the sidebar to navigate to **Race Split (Pre/Post)**.
-            This build preserves the registration & login flow and includes DL/ML pacing where available.
-            """
-        )
-    else:
-        race_split_page()
-
-def race_split_page():
-    show_banner()
-    st.title("🏊 Race Split")
-    st.caption("Pre-race optimal splits and post-race analysis")
-
-    st.sidebar.header("Model")
-    weights_available = _dl_weights_available()
-    use_dl = st.sidebar.checkbox(
-        "Use Deep Learning Pacing Model (if available)",
-        value=weights_available,
-    )
-    if use_dl and not weights_available:
-        st.sidebar.info("No model weights found (.pt or .pkl). Falling back to rule-based.")
-        use_dl = False
-
-    rb = RuleBasedPacer()
-    dl = None
-    if use_dl:
+def _load_users() -> Dict[str, Dict]:
+    cipher = _get_fernet()
+    if cipher and os.path.exists(USERS_PATH_ENC):
         try:
-            dl = DLPacingPredictor(weights_path="models/pacing_head.pt")
-            if not dl.available:
-                st.sidebar.warning("DL model not available; using rule-based instead.")
-                dl = None
-        except Exception as e:
-            st.sidebar.warning(f"DL init failed: {e}")
-            dl = None
+            with open(USERS_PATH_ENC,"rb") as f: data = cipher.decrypt(f.read())
+            return json.loads(data.decode())
+        except Exception: return {}
+    if os.path.exists(USERS_PATH_PLAIN):
+        try:
+            with open(USERS_PATH_PLAIN,"r",encoding="utf-8") as f: return json.load(f)
+        except Exception: return {}
+    return {}
 
-    st.subheader("Race Setup")
-    col1, col2, col3, col4 = st.columns(4)
-    race_day = col1.date_input("Race day", value=date.today())
-    stroke = col2.selectbox("Stroke", ["free", "fly", "back", "breast", "im"])
-    distance = col3.selectbox("Distance (m)", [50, 100, 200, 400, 800, 1500])
-    mode = col4.radio("Mode", ["Pre-race", "Post-race"], horizontal=True)
+def _save_users(users: Dict[str, Dict]):
+    os.makedirs(".data", exist_ok=True)
+    payload = json.dumps(users, ensure_ascii=False).encode()
+    cipher = _get_fernet()
+    if cipher:
+        with open(USERS_PATH_ENC,"wb") as f: f.write(cipher.encrypt(payload))
+        if os.path.exists(USERS_PATH_PLAIN): os.remove(USERS_PATH_PLAIN)
+    else:
+        with open(USERS_PATH_PLAIN,"w",encoding="utf-8") as f: f.write(payload.decode())
 
-    if mode == "Pre-race":
-        st.markdown("### Pre-race inputs")
-        p1, p2, p3 = st.columns(3)
-        pb50 = p1.number_input("50m Personal Best (s)", min_value=10.0, max_value=60.0, value=24.0, step=0.01)
-        target_time = p2.number_input("Target time for event (s)", min_value=20.0, max_value=6000.0, value=120.0, step=0.01)
-        pool_m = p3.selectbox("Pool length", [50, 25], index=0)
+def register_user(username:str,password:str)->Tuple[bool,str]:
+    u=(username or "").strip().lower()
+    if not u or " " in u or len(u)<3: return False,"Username too short or invalid."
+    if len(password)<8: return False,"Password must be at least 8 chars."
+    if not any(c.isdigit() for c in password) or not any(c.isalpha() for c in password):
+        return False,"Password must include letters and numbers."
+    users=_load_users()
+    if u in users: return False,"Username already exists."
+    users[u]={"pw_hash":_bcrypt_hash(password),"created_at":datetime.utcnow().isoformat()+"Z"}
+    _save_users(users)
+    return True,"Account created. You can now sign in."
 
-        if st.button("Compute optimal splits"):
-            if use_dl and dl:
-                splits = dl.predict_optimal_splits(
-                    distance=distance, stroke=stroke, target_time=target_time, pool_m=pool_m
-                )
-            else:
-                splits = rb.predict_optimal_splits(
-                    distance=distance, stroke=stroke, target_time=target_time, pb50=pb50
-                )
+def authenticate(username:str,password:str)->bool:
+    u=(username or "").strip().lower()
+    users=_load_users()
+    return u in users and _bcrypt_check(password,users[u]["pw_hash"])
 
-            st.success("Optimal per-50 splits (s)")
-            st.write(splits)
-            st.bar_chart(splits)
+# ---------- Core pacing ----------
+def parse_time_to_seconds(s:str)->float:
+    s=str(s).strip()
+    if not s: return math.nan
+    if ":" in s:
+        parts=s.split(":")
+        if len(parts)==3: h,m,sec=parts; return int(h)*3600+int(m)*60+float(sec)
+        if len(parts)==2: m,sec=parts; return int(m)*60+float(sec)
+    return float(s)
 
-            df_pre = pd.DataFrame({"Lap": list(range(1, len(splits) + 1)), "Optimal": splits})
-            chart_pre = (
-                alt.Chart(df_pre)
-                .mark_line(point=True)
-                .encode(x="Lap:O", y="Optimal:Q")
-                .properties(width=600, height=300, title="Optimal per-50 splits (line chart)")
-            )
-            st.altair_chart(chart_pre, use_container_width=True)
-            pre_png = chart_to_png(chart_pre)
-            if pre_png:
-                st.download_button(
-                    "Download Pre-race PNG",
-                    data=pre_png,
-                    file_name="pre_race_optimal.png",
-                    mime="image/png",
-                )
+def format_seconds(t:float)->str:
+    if t is None or (isinstance(t,float) and (math.isnan(t) or math.isinf(t))): return ""
+    t=float(t); m=int(t//60); s=t-60*m
+    return f"{m}:{s:05.2f}" if m>0 else f"{s:.2f}s"
 
-    if mode == "Post-race":
-        st.markdown("### Post-race inputs")
-        q1, q2 = st.columns(2)
-        unit = q1.selectbox("Input split unit", [50, 100], index=0)
-        splits_text = q2.text_area(
-            "Enter splits separated by ';' (supports mm:ss too)",
-            value="; ".join(["30.5"] * (distance // unit)),
-        )
-        pool_m = st.selectbox("Pool length", [50, 25], index=0)
-        target_time = st.number_input(
-            "Target time for comparison (s)",
-            min_value=0.0,
-            max_value=6000.0,
-            value=0.0,
-            step=0.01,
-            help="Optional; used to synthesize an optimal if none.",
-        )
+def coerce_splits_str_to_seconds_list(s:str):
+    if not s: return []
+    for d in [";",",","\n","\t"]: s=s.replace(d," ")
+    return [parse_time_to_seconds(x) for x in s.split() if x.strip()]
 
+def expand_100_splits_to_50(lst): out=[]; [out.extend([s/2,s/2]) for s in lst]; return out
+
+def safe_altair_chart(df,x,y,title):
+    chart=alt.Chart(df).mark_line(point=True).encode(x=x,y=y,tooltip=[x,y]).properties(title=title).interactive()
+    st.altair_chart(chart,use_container_width=True)
+
+def pacing_plan(distance_m:int,target_time_s:float,pb50_s:float|None=None):
+    n=int(distance_m//50)
+    if n<=0: return []
+    trend=np.full(n,target_time_s/n)
+    if pb50_s and pb50_s>0:
+        floor=0.95*pb50_s if distance_m>=200 else 0.90*pb50_s
+        trend=np.maximum(trend,floor)
+        trend=trend*(target_time_s/trend.sum())
+    return trend.tolist()
+
+def analyze_post_race(splits,pb50):
+    s=np.array(splits,float); n=len(s)
+    total=float(s.sum()); mean=float(s.mean())
+    stdev=float(s.std(ddof=1)) if n>1 else 0.0
+    cv=(stdev/mean*100.0) if mean>0 else 0.0
+    slope=float(np.polyfit(np.arange(n),s,1)[0]) if n>=2 else 0.0
+    fastest=float(s.min()) if n else math.nan
+    slowest=float(s.max()) if n else math.nan
+    delta_vs_mean=s-mean
+    delta_vs_pb=s-(pb50 if (pb50 and pb50>0) else np.nan)
+    pct_from_best=(s-fastest)/fastest*100.0 if fastest>0 else np.zeros(n)
+    details=pd.DataFrame({"Lap (50m)":np.arange(1,n+1),
+        "Split (s)":np.round(s,2),
+        "Split (mm:ss)":[format_seconds(x) for x in s],
+        "Δ vs mean (s)":np.round(delta_vs_mean,2),
+        "Δ vs 50 PB (s)":np.round(delta_vs_pb,2),
+        "% from fastest (%)":np.round(pct_from_best,2),
+        "Cumulative (mm:ss)":[format_seconds(sum(s[:i+1])) for i in range(n)],})
+    metrics={"Total (mm:ss)":format_seconds(total),
+        "Average per-50":format_seconds(mean),
+        "Std dev (s)":round(stdev,2),
+        "CV (%)":round(cv,2),
+        "Slope (sec per 50)":round(slope,3),
+        "Fastest 50":format_seconds(fastest),
+        "Slowest 50":format_seconds(slowest),
+        "Laps (50m)":n}
+    tips=[]
+    if n>=2:
+        if s[0]<mean*0.94: tips.append("Opening too fast.")
+        elif s[0]>mean*1.05: tips.append("Opening too conservative.")
+    if n>=4 and s[-1]<=mean*0.98: tips.append("Strong finish.")
+    elif n>=4 and s[-1]>=mean*1.05: tips.append("Fade at the end.")
+    if cv>=3.0: tips.append("High variability. Focus even pacing.")
+    else: tips.append("Good consistency.")
+    if slope>0.1: tips.append("Splits trend slower.")
+    elif slope<-0.1: tips.append("Splits trend faster.")
+    if pb50 and pb50>0:
+        if (s<0.95*pb50).any(): tips.append("Some splits near raw 50 PB.")
+        if (s>1.20*pb50).any(): tips.append("Splits >120% of PB.")
+    return details,metrics,tips
+
+# ---------- UI helpers ----------
+def show_banner_logo():
+    if os.path.exists(ASSETS_BANNER): st.image(ASSETS_BANNER,use_column_width=True)
+    if os.path.exists(ASSETS_LOGO): st.sidebar.image(ASSETS_LOGO,width=72)
+
+def reset_app():
+    st.session_state.clear(); st.rerun()
+
+def close_app():
+    st.session_state.clear()
+    st.markdown("## 👋 App closed. Please stop the Streamlit server manually (Ctrl+C).")
+    st.stop()
+
+def login_or_register():
+    show_banner_logo()
+    tab1,tab2=st.tabs(["Sign in","Create account"])
+    with tab1:
+        with st.form("login"):
+            u=st.text_input("Username"); p=st.text_input("Password",type="password")
+            s=st.form_submit_button("Sign in")
+        if s:
+            if authenticate(u,p):
+                st.session_state["authed"]=True; st.session_state["username"]=u; st.rerun()
+            else: st.error("Invalid login")
+    with tab2:
+        with st.form("register",clear_on_submit=True):
+            u=st.text_input("New username"); p1=st.text_input("New password",type="password"); p2=st.text_input("Confirm",type="password")
+            agree=st.checkbox("I understand my credentials are stored hashed (and encrypted if enabled).")
+            s=st.form_submit_button("Create account")
+        if s:
+            if not agree: st.error("Confirm checkbox"); return
+            if p1!=p2: st.error("Passwords mismatch"); return
+            ok,msg=register_user(u,p1); (st.success if ok else st.error)(msg)
+
+def main_page():
+    show_banner_logo()
+    st.header("🛟 Race Split")
+    st.caption("Pre-race optimal splits and post-race analysis")
+    c1,c2,c3,c4=st.columns([1,1,1,1])
+    race_day=c1.date_input("Race day",value=date.today())
+    stroke=c2.selectbox("Stroke",["free","back","breast","fly","IM"])
+    distance=c3.number_input("Distance (m)",50,1500,50,50)
+    mode=c4.radio("Mode",["Pre-race","Post-race"])
+    if mode=="Pre-race":
+        pb50=st.number_input("50m PB (s)",0.0,step=0.01,value=24.0)
+        target_total=st.number_input("Target total (s)",0.0,step=0.01,value=120.0)
+        if st.button("Compute splits"):
+            splits=pacing_plan(distance,target_total,pb50)
+            df=pd.DataFrame({"Lap":np.arange(1,len(splits)+1),
+                "Split (s)":np.round(splits,2),
+                "Split (mm:ss)":[format_seconds(x) for x in splits]})
+            st.dataframe(df,hide_index=True)
+            safe_altair_chart(df,"Lap","Split (s)","Pacing plan")
+    else:
+        unit=st.radio("Your split unit",["50","100"])
+        pb50=st.number_input("50m PB (s)",0.0,step=0.01,value=24.0)
+        raw=st.text_area("Splits")
         if st.button("Analyze race"):
-            raw = parse_semicolon_splits(splits_text)
-            if unit == 100 and raw is not None:
-                actual_50 = []
-                for s in raw:
-                    actual_50.extend([round(s / 2, 2), round(s / 2, 2)])
-            else:
-                actual_50 = raw
+            splits=coerce_splits_str_to_seconds_list(raw)
+            if unit=="100": splits=expand_100_splits_to_50(splits)
+            details,metrics,tips=analyze_post_race(splits,pb50)
+            st.dataframe(details,hide_index=True)
+            st.json(metrics)
+            for t in tips: st.write("-",t)
 
-            if not actual_50 or len(actual_50) != distance // 50:
-                st.error(
-                    f"Expected {distance//50} splits at 50m granularity, got {len(actual_50) if actual_50 else 0}."
-                )
-            else:
-                if use_dl and dl and target_time > 0:
-                    optimal_50 = dl.predict_optimal_splits(
-                        distance=distance, stroke=stroke, target_time=target_time, pool_m=pool_m
-                    )
-                else:
-                    total = sum(actual_50) if target_time <= 0 else target_time
-                    optimal_50 = even_split(total, distance)
+def sidebar_controls():
+    if "username" in st.session_state:
+        st.sidebar.write("Signed in as",st.session_state["username"])
+    if st.sidebar.button("🔄 Reset App"): reset_app()
+    if st.sidebar.button("❌ Close App"): close_app()
+    if st.sidebar.button("Log out"): reset_app()
 
-                df = pd.DataFrame(
-                    {"Lap": list(range(1, len(actual_50) + 1)), "Actual": actual_50, "Optimal": optimal_50}
-                )
-                df["Delta"] = df["Actual"] - df["Optimal"]
+def main():
+    if "authed" not in st.session_state or not st.session_state["authed"]:
+        login_or_register(); return
+    sidebar_controls()
+    main_page()
 
-                chart_lines = (
-                    alt.Chart(df)
-                    .transform_fold(["Actual", "Optimal"], as_=["Type", "Time"])
-                    .mark_line(point=True)
-                    .encode(x="Lap:O", y="Time:Q", color="Type:N")
-                    .properties(width=600, height=300, title="Actual vs Optimal per-50 splits")
-                )
-
-                chart_delta = (
-                    alt.Chart(df)
-                    .mark_bar()
-                    .encode(
-                        x="Lap:O",
-                        y="Delta:Q",
-                        color=alt.condition("datum.Delta <= 0", alt.value("green"), alt.value("red")),
-                    )
-                    .properties(width=600, height=300, title="Delta (Actual - Optimal)")
-                )
-
-                st.altair_chart(chart_lines, use_container_width=True)
-                st.altair_chart(chart_delta, use_container_width=True)
-
-                turn_issues = []
-                for i in range(1, len(df) - 1):
-                    if (i + 1) % 2 == 1 and df.loc[i, "Delta"] > 0.6:
-                        turn_issues.append(
-                            f"Lap {i+1}: Slow after turn (+{df.loc[i, 'Delta']:.2f}s) — work on breakout and push-offs."
-                        )
-
-                if turn_issues:
-                    st.subheader("Turn Insights")
-                    for tip in turn_issues:
-                        st.markdown(f"- {tip}")
-
-                lines_png = chart_to_png(chart_lines)
-                delta_png = chart_to_png(chart_delta)
-                chart_list = [b for b in [lines_png, delta_png] if b]
-
-                pdf_buffer = create_pdf_report(
-                    metadata={"Race Day": race_day, "Stroke": stroke, "Distance": distance, "Pool": pool_m},
-                    chart_pngs=chart_list,
-                )
-
-                if lines_png:
-                    st.download_button(
-                        "Download Actual vs Optimal PNG",
-                        data=lines_png,
-                        file_name="actual_vs_optimal.png",
-                        mime="image/png",
-                    )
-                if delta_png:
-                    st.download_button(
-                        "Download Delta PNG",
-                        data=delta_png,
-                        file_name="delta_chart.png",
-                        mime="image/png",
-                    )
-                st.download_button(
-                    "Download PDF Report", data=pdf_buffer, file_name="race_report.pdf", mime="application/pdf"
-                )
-
-# ---------- Router ----------
-if st.session_state.user is None:
-    landing_page()
-else:
-    app_nav()
+if __name__=="__main__":
+    main()
