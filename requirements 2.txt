@@ -1,6 +1,0 @@
-streamlit
-pandas
-numpy
-altair
-vl-convert-python
-bcrypt
