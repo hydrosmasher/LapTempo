@@ -1,0 +1,11 @@
+<svg width="1600" height="320" viewBox="0 0 1600 320" xmlns="http://www.w3.org/2000/svg">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#0ea5e9"/><stop offset="1" stop-color="#2563eb"/></linearGradient></defs>
+  <rect width="1600" height="320" fill="url(#bg)"/>
+  <g opacity="0.2" fill="#fff">
+    <circle cx="200" cy="240" r="120"/><circle cx="1400" cy="80" r="180"/>
+  </g>
+  <text x="800" y="150" font-family="Helvetica, Arial, sans-serif" font-size="56" text-anchor="middle" fill="#fff" font-weight="700">SwimForge</text>
+  <text x="800" y="195" font-family="Helvetica, Arial, sans-serif" font-size="22" text-anchor="middle" fill="#eef4ff">Where Science Shapes Speed</text>
+  <text x="800" y="230" font-family="Helvetica, Arial, sans-serif" font-size="18" text-anchor="middle" fill="#dbeafe">Powered by HydroSmasher</text>
+</svg>
