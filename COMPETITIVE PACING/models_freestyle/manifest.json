@@ -1,0 +1,212 @@
+{
+  "frac_1": {
+    "model": "RandomForest",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 100
+    }
+  },
+  "frac_2": {
+    "model": "RandomForest",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 100
+    }
+  },
+  "frac_3": {
+    "model": "RandomForest",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 100
+    }
+  },
+  "frac_4": {
+    "model": "RandomForest",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 100
+    }
+  },
+  "frac_5": {
+    "model": "RandomForest",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 100
+    }
+  },
+  "frac_6": {
+    "model": "RandomForest",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 100
+    }
+  },
+  "frac_7": {
+    "model": "RandomForest",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 100
+    }
+  },
+  "frac_8": {
+    "model": "RandomForest",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 100
+    }
+  },
+  "frac_9": {
+    "model": "RandomForest",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 100
+    }
+  },
+  "frac_10": {
+    "model": "RandomForest",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 100
+    }
+  },
+  "frac_11": {
+    "model": "RandomForest",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 100
+    }
+  },
+  "frac_12": {
+    "model": "RandomForest",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 100
+    }
+  },
+  "frac_13": {
+    "model": "RandomForest",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 100
+    }
+  },
+  "frac_14": {
+    "model": "RandomForest",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 100
+    }
+  },
+  "frac_15": {
+    "model": "RandomForest",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 100
+    }
+  },
+  "frac_16": {
+    "model": "RandomForest",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 100
+    }
+  },
+  "frac_17": {
+    "model": "RandomForest",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 100
+    }
+  },
+  "frac_18": {
+    "model": "RandomForest",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 100
+    }
+  },
+  "frac_19": {
+    "model": "RandomForest",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 100
+    }
+  },
+  "frac_20": {
+    "model": "RandomForest",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 100
+    }
+  },
+  "frac_21": {
+    "model": "RandomForest",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 100
+    }
+  },
+  "frac_22": {
+    "model": "RandomForest",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 100
+    }
+  },
+  "frac_23": {
+    "model": "RandomForest",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 100
+    }
+  },
+  "frac_24": {
+    "model": "RandomForest",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 100
+    }
+  },
+  "frac_25": {
+    "model": "RandomForest",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 100
+    }
+  },
+  "frac_26": {
+    "model": "RandomForest",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 100
+    }
+  },
+  "frac_27": {
+    "model": "RandomForest",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 100
+    }
+  },
+  "frac_28": {
+    "model": "RandomForest",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 100
+    }
+  },
+  "frac_29": {
+    "model": "RandomForest",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 100
+    }
+  },
+  "frac_30": {
+    "model": "RandomForest",
+    "params": {
+      "max_depth": 3,
+      "n_estimators": 100
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "frac_1": {
+    "model": "GBR",
+    "params": {
+      "learning_rate": 0.1,
+      "n_estimators": 100
+    }
+  },
+  "frac_2": {
+    "model": "GBR",
+    "params": {
+      "learning_rate": 0.1,
+      "n_estimators": 100
+    }
+  },
+  "frac_3": {
+    "model": "GBR",
+    "params": {
+      "learning_rate": 0.1,
+      "n_estimators": 100
+    }
+  },
+  "frac_4": {
+    "model": "GBR",
+    "params": {
+      "learning_rate": 0.1,
+      "n_estimators": 100
+    }
+  },
+  "frac_5": {
+    "model": "GBR",
+    "params": {
+      "learning_rate": 0.1,
+      "n_estimators": 100
+    }
+  },
+  "frac_6": {
+    "model": "GBR",
+    "params": {
+      "learning_rate": 0.1,
+      "n_estimators": 100
+    }
+  },
+  "frac_7": {
+    "model": "GBR",
+    "params": {
+      "learning_rate": 0.1,
+      "n_estimators": 100
+    }
+  },
+  "frac_8": {
+    "model": "GBR",
+    "params": {
+      "learning_rate": 0.1,
+      "n_estimators": 100
+    }
+  }
+}
