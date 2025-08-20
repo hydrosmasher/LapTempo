@@ -1,25 +1,22 @@
-# SwimForge – Models + Secure Auth + Banner/Logo + Reset/Close
-# Post-race now keeps 2x50 splits for 100m and shows "Analysis" chart (Actual vs Ideal).
+# SwimForge – Secure Registration/Login with Banner+Logo; Strategy removed
 from __future__ import annotations
-import os, math, json, traceback
-from typing import List, Tuple, Dict, Optional
+import os, math, json
+from typing import List, Tuple, Dict
 from datetime import date, datetime
 import numpy as np
 import pandas as pd
 import streamlit as st
 import altair as alt
 
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import r2_score, mean_absolute_error
-from joblib import dump, load
-
+# Optional crypto for encrypting the user database at rest
+FERNET_AVAILABLE = False
 try:
     from cryptography.fernet import Fernet
     FERNET_AVAILABLE = True
 except Exception:
-    FERNET_AVAILABLE = False
+    pass
 
+# Password hashing
 try:
     import bcrypt
     HAS_BCRYPT = True
@@ -30,29 +27,35 @@ APP_TITLE = "SwimForge"
 APP_TAGLINE = "Where Science Shapes Speed"
 POWERED_BY = "Powered by HydroSmasher"
 
-ASSETS_BANNER = "assets/banner.png"
-ASSETS_LOGO = "assets/logo.png"
-DATA_DIR = "data"
-MODELS_DIR = ".models"
+ASSETS_BANNER = "assets/banner.png"  # displayed at top
+ASSETS_LOGO = "assets/logo.png"      # displayed in sidebar
 
 st.set_page_config(page_title=APP_TITLE, page_icon="🏊", layout="wide")
 
-# =============== Styling ===============
+# ============================= Styling =============================
 st.markdown("""
 <style>
 .block-container {padding-top: 0rem; padding-bottom: 3rem; max-width: 1200px;}
-.hero { border-radius: 18px; padding: 16px 20px; margin: 14px 0 18px 0;
-  background: linear-gradient(135deg, #0D1A35 0%, #0B1430 60%, #0A122C 100%);
-  border: 1px solid rgba(120,150,255,0.12); text-align: center; }
-.hero h1 { margin: 8px 0 0 0; font-size: 40px;}
-.hero .sub { margin-top: 4px; opacity: 0.9;}
-.hero .powered { margin-top: 2px; font-size: 12px; opacity: 0.65;}
+.hero {
+  border-radius: 18px;
+  padding: 16px 20px;
+  margin: 14px 0 18px 0;
+  background: radial-gradient(1200px 300px at 10% -10%, rgba(70,130,255,0.20) 0%, rgba(70,130,255,0) 60%),
+              radial-gradient(1000px 250px at 95% -20%, rgba(0,200,255,0.16) 0%, rgba(0,200,255,0) 60%),
+              linear-gradient(135deg, #0D1A35 0%, #0B1430 60%, #0A122C 100%);
+  border: 1px solid rgba(120,150,255,0.12);
+  text-align: center;
+}
+.hero h1 { margin: 8px 0 0 0; font-size: 40px; line-height: 1.2; letter-spacing: 0.2px;}
+.hero .sub { margin-top: 4px; opacity: 0.9; }
+.hero .powered { margin-top: 2px; font-size: 12px; opacity: 0.65; }
 .h1 {font-size: 28px; font-weight: 800; margin-top: 4px; display:flex; align-items:center; gap:8px;}
 .sf-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(120,150,255,0.12);
   border-radius: 16px; padding: 18px; margin-bottom: 16px;}
 .stButton>button { border-radius: 12px; padding: 10px 16px; font-weight: 600;
   border: 1px solid rgba(120,150,255,0.25);}
 header {visibility: hidden;}
+.small {font-size: 12px; opacity:.7;}
 </style>
 """, unsafe_allow_html=True)
 
@@ -73,7 +76,7 @@ def hero():
     </div>
     """, unsafe_allow_html=True)
 
-# =============== Auth ===============
+# ============================= Secure user DB =============================
 USERS_PATH_PLAIN = os.path.join(".data", "users.json")
 USERS_PATH_ENC = os.path.join(".data", "users.enc")
 
@@ -110,7 +113,7 @@ def _load_users() -> Dict[str, Dict]:
                 data = cipher.decrypt(f.read())
             return json.loads(data.decode())
         except Exception:
-            st.warning("User database decryption failed. Admin: check your FERNET_KEY.", icon="⚠️")
+            st.warning("User database decryption failed. Admin: check your FERNET_KEY in secrets/env.", icon="⚠️")
             return {}
     if os.path.exists(USERS_PATH_PLAIN):
         try:
@@ -158,7 +161,7 @@ def authenticate(username: str, password: str) -> bool:
     if u not in users: return False
     return _bcrypt_check(password, users[u].get("pw_hash",""))
 
-# =============== Timing utils ===============
+# ============================= Core logic =============================
 def parse_time_to_seconds(s: str) -> float:
     s = str(s).strip()
     if not s: return math.nan
@@ -183,139 +186,21 @@ def coerce_splits_str_to_seconds_list(s: str):
 def expand_100_splits_to_50(splits_100: List[float]) -> List[float]:
     out=[]; [out.extend([s/2.0, s/2.0]) for s in splits_100]; return out
 
-def safe_altair_chart(chart):
+def safe_altair_chart(df: pd.DataFrame, x: str, y: str, title: str):
+    chart = alt.Chart(df).mark_line(point=True).encode(x=x, y=y, tooltip=[x,y]).properties(title=title).interactive()
     st.altair_chart(chart, use_container_width=True)
 
-# =============== Models (same as before) ===============
-STROKES = ["freestyle","backstroke","breaststroke","butterfly","im"]
-DATA_DIR = "data"
-MODELS_DIR = ".models"
-
-def _canonicalize_columns(df: pd.DataFrame) -> pd.DataFrame:
-    df = df.copy()
-    df.columns = [c.strip().lower().replace(" ", "_") for c in df.columns]
-    return df
-
-def _infer_columns(df: pd.DataFrame) -> Dict[str, Optional[str]]:
-    def find(*names):
-        for n in names:
-            key = n.lower().replace(" ", "_")
-            for c in df.columns:
-                if c == key or c.endswith(key) or key in c:
-                    return c
-        return None
-    y = find("split", "split_s", "target_split", "time_per_50", "time")
-    lap = find("lap", "lap_50", "length", "length_index")
-    distance = find("distance", "distance_m", "event_distance")
-    pb50 = find("pb50", "pb_50", "personal_best_50", "50_pb")
-    stroke = find("stroke")
-    return {"y": y, "lap": lap, "distance": distance, "pb50": pb50, "stroke": stroke}
-
-def _make_features(df: pd.DataFrame, cols: Dict[str,str]) -> Tuple[pd.DataFrame, pd.Series]:
-    ycol = cols["y"]
-    if ycol is None:
-        raise ValueError("Could not infer target split column from dataset.")
-    X = pd.DataFrame(index=df.index)
-    if cols["lap"] in df:
-        X["lap"] = pd.to_numeric(df[cols["lap"]], errors="coerce").fillna(1).astype(int)
-    else:
-        X["lap"] = 1
-    if cols["distance"] in df:
-        X["distance"] = pd.to_numeric(df[cols["distance"]], errors="coerce").fillna(0.0)
-    if cols["pb50"] in df:
-        X["pb50"] = pd.to_numeric(df[cols["pb50"]], errors="coerce").fillna(0.0)
-    if cols["stroke"] in df:
-        X["stroke"] = df[cols["stroke"]].astype(str).str.lower()
-        X = pd.get_dummies(X, columns=["stroke"], drop_first=False)
-    y = pd.to_numeric(df[ycol], errors="coerce")
-    y = y.replace([np.inf,-np.inf], np.nan).dropna()
-    X = X.loc[y.index]
-    return X, y
-
-def stroke_dataset_path(stroke: str) -> str:
-    return os.path.join(DATA_DIR, f"{stroke.capitalize()}_dataset.csv")
-
-def train_stroke_model(stroke: str) -> Dict[str, any]:
-    ds_path = stroke_dataset_path(stroke)
-    if not os.path.exists(ds_path):
-        raise FileNotFoundError(f"Missing dataset: {ds_path}")
-    df = pd.read_csv(ds_path)
-    df = _canonicalize_columns(df)
-    cols = _infer_columns(df)
-    X, y = _make_features(df, cols)
-    X_train, X_valid, y_train, y_valid = train_test_split(X, y, test_size=0.2, random_state=42)
-    model = RandomForestRegressor(n_estimators=300, random_state=42, n_jobs=-1)
-    model.fit(X_train, y_train)
-    preds = model.predict(X_valid)
-    metrics = {
-        "r2": float(r2_score(y_valid, preds)),
-        "mae": float(mean_absolute_error(y_valid, preds)),
-        "n_train": int(len(X_train)),
-        "n_valid": int(len(X_valid)),
-        "features": list(X.columns),
-    }
-    os.makedirs(MODELS_DIR, exist_ok=True)
-    model_path = os.path.join(MODELS_DIR, f"{stroke}.joblib")
-    dump(model, model_path)
-    meta = {"stroke": stroke, "model_path": model_path, "metrics": metrics, "feature_names": list(X.columns)}
-    with open(os.path.join(MODELS_DIR, f"{stroke}.json"), "w", encoding="utf-8") as f:
-        json.dump(meta, f, ensure_ascii=False, indent=2)
-    return meta
-
-def have_model(stroke: str) -> bool:
-    return os.path.exists(os.path.join(MODELS_DIR, f"{stroke}.joblib"))
-
-def predict_splits_with_model(stroke: str, distance_m: int, pb50_s: float, n_laps: int) -> Optional[List[float]]:
-    model_path = os.path.join(MODELS_DIR, f"{stroke}.joblib")
-    meta_path  = os.path.join(MODELS_DIR, f"{stroke}.json")
-    if not os.path.exists(model_path) or not os.path.exists(meta_path):
-        return None
-    try:
-        model = load(model_path)
-        meta = json.load(open(meta_path, "r", encoding="utf-8"))
-        feats = meta.get("feature_names", [])
-        X = pd.DataFrame({"lap": np.arange(1, n_laps+1)})
-        if "distance" in feats: X["distance"] = distance_m
-        if "pb50" in feats: X["pb50"] = pb50_s if pb50_s and pb50_s>0 else 0.0
-        for f in feats:
-            if f.startswith("stroke_"):
-                X[f] = 0
-        key = f"stroke_{stroke}"
-        if key in feats: X[key] = 1
-        for f in feats:
-            if f not in X.columns: X[f] = 0
-        X = X[feats]
-        pred = model.predict(X)
-        return np.clip(pred, 0.01, None).tolist()
-    except Exception as e:
-        st.warning(f"Model prediction failed for {stroke}: {e}")
-        return None
-
-# =============== Pacing + Analysis ===============
-def even_pacing(distance_m: int, target_time_s: float, pb50_s: float|None=None):
+def pacing_plan(distance_m: int, target_time_s: float, pb50_s: float|None=None):
+    """Even pacing only (strategy removed), normalized to target time with PB floor safeguard."""
     n = int(distance_m // 50)
     if n<=0: return []
     trend = np.full(n, target_time_s / n, dtype=float)
     if pb50_s and pb50_s>0:
         floor = 0.95*pb50_s if distance_m>=200 else 0.90*pb50_s
         trend = np.maximum(trend, floor)
+        # Renormalize to preserve total
         trend = trend * (target_time_s / trend.sum())
     return trend.tolist()
-
-def pacing_plan(distance_m: int, target_time_s: float, stroke: str, pb50_s: float|None=None):
-    n = int(distance_m // 50)
-    if n<=0: return []
-    stroke_key = stroke.lower()
-    splits = predict_splits_with_model(stroke_key, distance_m, float(pb50_s or 0.0), n)
-    if splits is None:
-        splits = even_pacing(distance_m, target_time_s, pb50_s)
-    splits = np.array(splits, dtype=float)
-    splits = splits * (target_time_s / splits.sum())
-    if pb50_s and pb50_s>0:
-        floor = 0.95*pb50_s if distance_m>=200 else 0.90*pb50_s
-        splits = np.maximum(splits, floor)
-        splits = splits * (target_time_s / splits.sum())
-    return splits.tolist()
 
 def analyze_post_race(splits_50: List[float], pb50_s: float|None):
     s = np.array(splits_50, dtype=float); n=len(s)
@@ -365,15 +250,7 @@ def analyze_post_race(splits_50: List[float], pb50_s: float|None):
         tips.append(f"Focus laps (slowest): **{laps}**.")
     return details, metrics, tips
 
-# =============== Pages ===============
-def reset_app():
-    st.session_state.clear(); st.rerun()
-
-def close_app():
-    st.session_state.clear()
-    st.markdown("## 👋 App closed. Please stop the Streamlit server manually (Ctrl+C).")
-    st.stop()
-
+# ============================= UI =============================
 def login_or_register():
     show_sidebar_logo()
     hero()
@@ -414,51 +291,41 @@ def login_or_register():
                 (st.success if ok else st.error)(msg)
                 if ok: st.balloons()
 
-def page_models():
-    st.markdown("## 🧠 Stroke Models")
-    st.caption("Place your CSVs in `./data/` with names: Freestyle_dataset.csv, Backstroke_dataset.csv, Breaststroke_dataset.csv, Butterfly_dataset.csv, IM_dataset.csv")
-    os.makedirs(DATA_DIR, exist_ok=True); os.makedirs(MODELS_DIR, exist_ok=True)
-    with st.expander("Upload/replace a dataset CSV", expanded=False):
-        up_stroke = st.selectbox("Stroke", STROKES, index=0)
-        file = st.file_uploader("Upload CSV", type=["csv"], key="upcsv")
-        if file is not None:
-            path = stroke_dataset_path(up_stroke)
-            with open(path, "wb") as f: f.write(file.getbuffer())
-            st.success(f"Saved to {path}")
-    cols = st.columns(5)
-    for i, stroke in enumerate(STROKES):
-        with cols[i]:
-            if st.button(f"Train {stroke.capitalize()}", key=f"train_{stroke}"):
-                try:
-                    meta = train_stroke_model(stroke)
-                    st.success(f"Trained {stroke} model — R²={meta['metrics']['r2']:.3f}, MAE={meta['metrics']['mae']:.3f}s")
-                    st.json(meta["metrics"])
-                except Exception as e:
-                    st.error(f"{stroke} training failed: {e}")
-                    st.code(traceback.format_exc())
-    rows = [{"Stroke": s, "Model": "✅" if have_model(s) else "—"} for s in STROKES]
-    st.dataframe(pd.DataFrame(rows), hide_index=True, use_container_width=True)
+def logout_button():
+    with st.sidebar:
+        if os.path.exists(ASSETS_LOGO):
+            st.image(ASSETS_LOGO, width=72)
+        if st.button("Log out", use_container_width=True):
+            st.session_state.clear(); st.rerun()
 
-def page_pre_post():
+def main_page():
+    show_sidebar_logo()
+    hero()
     st.markdown('<div class="h1">🛟 Race Split</div>', unsafe_allow_html=True)
-    st.caption("Pre-race optimal splits (model-informed when available) and post-race analysis")
+    st.caption("Pre-race optimal splits and post-race analysis")
+
+    # Race Setup
+    st.markdown('<div class="sf-card">', unsafe_allow_html=True)
+    st.markdown("### Race Setup")
     c1,c2,c3,c4 = st.columns([1,1,1,1])
     race_day = c1.date_input("Race day", value=date.today())
-    stroke = c2.selectbox("Stroke", ["freestyle","backstroke","breaststroke","butterfly","im"], index=0)
-    distance = c3.number_input("Distance (m)", min_value=50, max_value=1500, step=50, value=100)
-    mode = c4.radio("Mode", ["Pre-race","Post-race"], horizontal=True, index=1)
+    stroke = c2.selectbox("Stroke", ["free","back","breast","fly","IM"], index=0)
+    distance = c3.number_input("Distance (m)", min_value=50, max_value=1500, step=50, value=50)
+    mode = c4.radio("Mode", ["Pre-race","Post-race"], horizontal=True, index=0)
+    st.markdown('</div>', unsafe_allow_html=True)
 
     if mode=="Pre-race":
         st.markdown('<div class="sf-card">', unsafe_allow_html=True)
         st.markdown("### Pre-race inputs")
         c5,c6,c7 = st.columns([1,1,1])
-        pb50 = c5.number_input("50m Personal Best (s)", min_value=0.0, step=0.01, value=26.00, format="%.2f")
-        target_total = c6.number_input("Target time for event (s)", min_value=0.0, step=0.01, value=60.00, format="%.2f")
+        pb50 = c5.number_input("50m Personal Best (s)", min_value=0.0, step=0.01, value=24.00, format="%.2f")
+        target_total = c6.number_input("Target time for event (s)", min_value=0.0, step=0.01, value=120.00, format="%.2f")
         pool_len = c7.selectbox("Pool length", [25,50], index=1)
         act = st.button("Compute optimal splits", type="primary")
+        st.markdown('</div>', unsafe_allow_html=True)
 
         if act:
-            splits = pacing_plan(int(distance), float(target_total), stroke=str(stroke), pb50_s=float(pb50))
+            splits = pacing_plan(int(distance), float(target_total), pb50_s=float(pb50))
             if not splits:
                 st.warning("Enter valid inputs.")
             else:
@@ -470,11 +337,8 @@ def page_pre_post():
                 })
                 st.success(f"Target average per-50: **{format_seconds(float(target_total)/(int(distance)/50))}**")
                 st.dataframe(df, use_container_width=True, hide_index=True)
-                chart = alt.Chart(df).mark_line(point=True).encode(
-                    x=alt.X("Lap (50m):Q"), y=alt.Y("Target Split (s):Q"), tooltip=["Lap (50m)","Target Split (s)"]
-                ).properties(title="Pre‑race Target Pacing (per‑50)").interactive()
-                safe_altair_chart(chart)
-        st.markdown('</div>', unsafe_allow_html=True)
+                safe_altair_chart(df, "Lap (50m)", "Target Split (s)", "Pacing Plan (per-50)")
+                st.download_button("Download pacing plan (CSV)", data=df.to_csv(index=False).encode(), file_name=f"pacing_plan_{int(distance)}m.csv", mime="text/csv")
 
     else:
         st.markdown('<div class="sf-card">', unsafe_allow_html=True)
@@ -483,81 +347,40 @@ def page_pre_post():
         unit = c5.radio("Your split unit", ["50","100"], horizontal=True, index=0)
         pb50 = c6.number_input("50m Personal Best (s)", min_value=0.0, step=0.01, value=24.00, format="%.2f")
         pool_len = c7.selectbox("Pool length", [25,50], index=1)
-        raw = st.text_area("Paste your splits (use ';' or ',' or spaces)", placeholder="33.30;39.59")
+        raw = st.text_area("Paste your splits (use ';' or ',' or spaces)", placeholder="33;38;42;40;47;49;40;38")
         act = st.button("Analyze race", type="primary")
+        st.markdown('</div>', unsafe_allow_html=True)
 
         if act:
-            splits_raw = coerce_splits_str_to_seconds_list(raw)
-            if not splits_raw:
+            splits = coerce_splits_str_to_seconds_list(raw)
+            if not splits:
                 st.warning("Please paste valid splits.")
             else:
-                # ✅ Keep exactly per-50 splits when unit == "50". Only expand when unit == "100".
-                if unit == "100":
-                    splits_50 = expand_100_splits_to_50(splits_raw)
-                else:
-                    splits_50 = splits_raw
-
-                # Additional guard for 100m events: expect exactly two 50s
-                if int(distance) == 100 and len(splits_50) != 2:
-                    st.warning("For 100m events with per‑50 input, please provide exactly **two** 50m splits.")
-                details, metrics, tips = analyze_post_race(splits_50, float(pb50))
-
-                st.markdown("### Analysis")
+                if unit=="100":
+                    splits = expand_100_splits_to_50(splits)
+                details, metrics, tips = analyze_post_race(splits, float(pb50))
                 st.success(f"Total: **{metrics['Total (mm:ss)']}**, Average per-50: **{metrics['Average per-50']}**")
-
-                # Build ideal (even) comparison at same total time and number of laps
-                n = len(splits_50)
-                total_time = sum(splits_50)
-                ideal = [total_time / n] * n if n > 0 else []
-                comp_df = pd.DataFrame({
-                    "Lap (50m)": np.arange(1, n+1),
-                    "Actual": np.round(splits_50, 2),
-                    "Ideal (even)": np.round(ideal, 2),
-                })
-                comp_melt = comp_df.melt(id_vars=["Lap (50m)"], value_vars=["Actual","Ideal (even)"],
-                                         var_name="Series", value_name="Split (s)")
-
-                chart = alt.Chart(comp_melt).mark_line(point=True).encode(
-                    x=alt.X("Lap (50m):Q"),
-                    y=alt.Y("Split (s):Q"),
-                    color="Series:N",
-                    tooltip=["Lap (50m)","Series","Split (s)"]
-                ).properties(title="Analysis — Actual vs Ideal (per‑50)").interactive()
-                safe_altair_chart(chart)
-
                 cA,cB,cC,cD = st.columns(4)
                 cA.metric("Std dev (s)", metrics["Std dev (s)"])
                 cB.metric("CV (%)", metrics["CV (%)"])
                 cC.metric("Trend slope (s/50)", metrics["Slope (sec per 50)"])
                 cD.metric("Laps (50m)", metrics["Laps (50m)"])
                 st.dataframe(details, use_container_width=True, hide_index=True)
-
+                safe_altair_chart(details, "Lap (50m)", "Split (s)", "Race Splits (per-50)")
                 st.markdown("### Recommendations")
                 for t in tips: st.write(f"- {t}")
-        st.markdown('</div>', unsafe_allow_html=True)
+                st.download_button("Download analysis (CSV)", data=details.to_csv(index=False).encode(), file_name=f"post_race_analysis_{int(distance)}m.csv", mime="text/csv")
 
 def main():
     show_sidebar_logo()
     if "authed" not in st.session_state or not st.session_state["authed"]:
-        # Simple login/register to keep file concise here:
-        hero()
-        with st.form("login"):
-            u=st.text_input("Username"); p=st.text_input("Password", type="password")
-            s=st.form_submit_button("Sign in")
-        if s and authenticate(u,p):
-            st.session_state["authed"]=True; st.session_state["username"]=u; st.rerun()
-        st.stop()
+        login_or_register(); return
     with st.sidebar:
+        if os.path.exists(ASSETS_LOGO): st.image(ASSETS_LOGO, width=72)
         st.write(f"Signed in as **{st.session_state.get('username','')}**")
-        if st.button("🔄 Reset App", use_container_width=True): st.session_state.clear(); st.rerun()
-        if st.button("❌ Close App", use_container_width=True):
-            st.session_state.clear(); st.markdown("## 👋 App closed. Stop Streamlit (Ctrl+C)."); st.stop()
-        page = st.radio("Go to", ["Pre/Post","Models"], index=0)
-    hero()
-    if page=="Models":
-        page_models()
-    else:
-        page_pre_post()
+        if st.button("Log out", use_container_width=True):
+            st.session_state.clear(); st.rerun()
+    main_page()
 
 if __name__ == "__main__":
     main()
