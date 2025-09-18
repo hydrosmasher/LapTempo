@@ -1,0 +1,36 @@
+# === Swim Chatbot (Local-First RAG) ===
+# Everything runs locally. No paid APIs required.
+
+# Choose your local LLM backend: 'gpt4all' | 'ollama' | 'none'
+llm_backend: gpt4all
+
+# If gpt4all: set a local model name that GPT4All can auto-download (free).
+# Examples: 'orca-mini-3b.gguf2.Q4_0.gguf', 'mistral-7b-instruct-v0.2.Q4_0.gguf'
+gpt4all_model: orca-mini-3b.gguf2.Q4_0.gguf
+
+# If ollama: ensure `ollama serve` is running locally and a model is pulled: e.g., `ollama pull phi3`
+ollama_model: phi3
+
+# Retriever settings
+retrieval:
+  top_k_dense: 8
+  top_k_bm25: 8
+  fusion: rrf  # 'rrf' (reciprocal rank fusion) or 'weighted'
+  alpha_dense: 0.6   # used if fusion=='weighted'
+  alpha_bm25: 0.4    # used if fusion=='weighted'
+  use_cross_encoder_rerank: true
+  rerank_top_k: 8
+  cross_encoder_model: cross-encoder/ms-marco-MiniLM-L-6-v2
+
+# Embeddings model (free, small, good)
+embeddings_model: sentence-transformers/all-MiniLM-L6-v2
+
+# Chunking
+chunk:
+  size: 800
+  overlap: 120
+
+# Paths
+paths:
+  docs_dir: ./docs
+  index_dir: ./index

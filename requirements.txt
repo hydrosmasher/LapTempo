@@ -1,0 +1,18 @@
+# Core
+numpy
+pandas
+scikit-learn
+
+# Embeddings & Re-ranking (all free, local HF downloads on first run)
+faiss-cpu
+sentence-transformers
+rank-bm25
+torch
+
+# Optional LLM backends (choose one or none)
+gpt4all
+ollama
+
+# CLI niceties
+pyyaml
+tqdm
