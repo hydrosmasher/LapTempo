@@ -1,0 +1,198 @@
+[
+  {
+    "stroke": "IM",
+    "target": "frac_1",
+    "model": "RandomForest",
+    "bestparams": {
+      "model__max_depth": 3,
+      "model__n_estimators": 50
+    },
+    "features": [
+      "Distance",
+      "Final time in seconds",
+      "athlete age",
+      "pool_len",
+      "strategy_code",
+      "final_time_sec"
+    ],
+    "dataset": "/Users/hrishikeshkarmalkar/Desktop/Swim-Forge/datasets/im_dataset.csv",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/Swim-Forge/models/IM/frac_1_RandomForest.joblib",
+    "cv_metrics": {
+      "r2_mean": 0.9945608621844674,
+      "r2_std": 0.005099511577734736,
+      "mse_mean": 1.2237777469898304e-05,
+      "mse_std": 1.1067342684817998e-05
+    }
+  },
+  {
+    "stroke": "IM",
+    "target": "frac_2",
+    "model": "RandomForest",
+    "bestparams": {
+      "model__max_depth": 3,
+      "model__n_estimators": 100
+    },
+    "features": [
+      "Distance",
+      "Final time in seconds",
+      "athlete age",
+      "pool_len",
+      "strategy_code",
+      "final_time_sec"
+    ],
+    "dataset": "/Users/hrishikeshkarmalkar/Desktop/Swim-Forge/datasets/im_dataset.csv",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/Swim-Forge/models/IM/frac_2_RandomForest.joblib",
+    "cv_metrics": {
+      "r2_mean": 0.9981802145081012,
+      "r2_std": 0.001418337964328568,
+      "mse_mean": 7.101551795669639e-06,
+      "mse_std": 4.952153707795178e-06
+    }
+  },
+  {
+    "stroke": "IM",
+    "target": "frac_3",
+    "model": "GBR",
+    "bestparams": {
+      "model__learning_rate": 0.1,
+      "model__n_estimators": 100
+    },
+    "features": [
+      "Distance",
+      "Final time in seconds",
+      "athlete age",
+      "pool_len",
+      "strategy_code",
+      "final_time_sec"
+    ],
+    "dataset": "/Users/hrishikeshkarmalkar/Desktop/Swim-Forge/datasets/im_dataset.csv",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/Swim-Forge/models/IM/frac_3_GBR.joblib",
+    "cv_metrics": {
+      "r2_mean": 0.9941971106920141,
+      "r2_std": 0.004534507800975633,
+      "mse_mean": 3.40413094604577e-05,
+      "mse_std": 2.305716699020935e-05
+    }
+  },
+  {
+    "stroke": "IM",
+    "target": "frac_4",
+    "model": "GBR",
+    "bestparams": {
+      "model__learning_rate": 0.1,
+      "model__n_estimators": 100
+    },
+    "features": [
+      "Distance",
+      "Final time in seconds",
+      "athlete age",
+      "pool_len",
+      "strategy_code",
+      "final_time_sec"
+    ],
+    "dataset": "/Users/hrishikeshkarmalkar/Desktop/Swim-Forge/datasets/im_dataset.csv",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/Swim-Forge/models/IM/frac_4_GBR.joblib",
+    "cv_metrics": {
+      "r2_mean": 0.9952614122747836,
+      "r2_std": 0.0026620356811775147,
+      "mse_mean": 1.4174467184406565e-05,
+      "mse_std": 7.595466087113812e-06
+    }
+  },
+  {
+    "stroke": "IM",
+    "target": "frac_5",
+    "model": "Ridge",
+    "bestparams": {
+      "model__alpha": 0.1
+    },
+    "features": [
+      "Distance",
+      "Final time in seconds",
+      "athlete age",
+      "pool_len",
+      "strategy_code",
+      "final_time_sec"
+    ],
+    "dataset": "/Users/hrishikeshkarmalkar/Desktop/Swim-Forge/datasets/im_dataset.csv",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/Swim-Forge/models/IM/frac_5_Ridge.joblib",
+    "cv_metrics": {
+      "r2_mean": -7817.933082755949,
+      "r2_std": 15630.977714337008,
+      "mse_mean": 7.177886049478929e-06,
+      "mse_std": 4.645140259396749e-06
+    }
+  },
+  {
+    "stroke": "IM",
+    "target": "frac_6",
+    "model": "Ridge",
+    "bestparams": {
+      "model__alpha": 0.1
+    },
+    "features": [
+      "Distance",
+      "Final time in seconds",
+      "athlete age",
+      "pool_len",
+      "strategy_code",
+      "final_time_sec"
+    ],
+    "dataset": "/Users/hrishikeshkarmalkar/Desktop/Swim-Forge/datasets/im_dataset.csv",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/Swim-Forge/models/IM/frac_6_Ridge.joblib",
+    "cv_metrics": {
+      "r2_mean": -24.4455459107394,
+      "r2_std": 47.70771251047052,
+      "mse_mean": 2.1293301854841247e-05,
+      "mse_std": 1.3977404655806486e-05
+    }
+  },
+  {
+    "stroke": "IM",
+    "target": "frac_7",
+    "model": "Ridge",
+    "bestparams": {
+      "model__alpha": 0.1
+    },
+    "features": [
+      "Distance",
+      "Final time in seconds",
+      "athlete age",
+      "pool_len",
+      "strategy_code",
+      "final_time_sec"
+    ],
+    "dataset": "/Users/hrishikeshkarmalkar/Desktop/Swim-Forge/datasets/im_dataset.csv",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/Swim-Forge/models/IM/frac_7_Ridge.joblib",
+    "cv_metrics": {
+      "r2_mean": -1.7775539784766494,
+      "r2_std": 2.8938592348218743,
+      "mse_mean": 9.894581411615828e-06,
+      "mse_std": 9.680609218238216e-06
+    }
+  },
+  {
+    "stroke": "IM",
+    "target": "frac_8",
+    "model": "Ridge",
+    "bestparams": {
+      "model__alpha": 0.1
+    },
+    "features": [
+      "Distance",
+      "Final time in seconds",
+      "athlete age",
+      "pool_len",
+      "strategy_code",
+      "final_time_sec"
+    ],
+    "dataset": "/Users/hrishikeshkarmalkar/Desktop/Swim-Forge/datasets/im_dataset.csv",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/Swim-Forge/models/IM/frac_8_Ridge.joblib",
+    "cv_metrics": {
+      "r2_mean": -0.007726378599039796,
+      "r2_std": 1.015610309959382,
+      "mse_mean": 3.213939174631703e-06,
+      "mse_std": 3.080434317812148e-06
+    }
+  }
+]

@@ -1,0 +1,51 @@
+stroke,target,model,bestparams,r2,mse
+Freestyle,frac_1,GBR,"{'model__learning_rate': 0.1, 'model__n_estimators': 100}",0.999870243378946,3.446300985404293e-06
+Freestyle,frac_10,GBR,"{'model__learning_rate': 0.1, 'model__n_estimators': 100}",0.9998943409633224,2.269611027931617e-08
+Freestyle,frac_11,GBR,"{'model__learning_rate': 0.1, 'model__n_estimators': 100}",0.9998884575181034,2.403124123045788e-08
+Freestyle,frac_12,GBR,"{'model__learning_rate': 0.1, 'model__n_estimators': 100}",0.9998824672075748,2.5413726915240372e-08
+Freestyle,frac_13,GBR,"{'model__learning_rate': 0.1, 'model__n_estimators': 100}",0.999880564246292,2.5981500273515697e-08
+Freestyle,frac_14,GBR,"{'model__learning_rate': 0.1, 'model__n_estimators': 100}",0.9998710225436998,2.8192505027017152e-08
+Freestyle,frac_15,GBR,"{'model__learning_rate': 0.1, 'model__n_estimators': 100}",0.9998765681982152,2.7097569500937284e-08
+Freestyle,frac_16,GBR,"{'model__learning_rate': 0.1, 'model__n_estimators': 100}",0.9964365193390609,7.678266339955384e-07
+Freestyle,frac_17,Ridge,{'model__alpha': 0.1},0.0,2.988990637699851e-08
+Freestyle,frac_18,Ridge,{'model__alpha': 0.1},0.0,2.5349672450572248e-08
+Freestyle,frac_19,Ridge,{'model__alpha': 0.1},0.0,2.2408701089148216e-08
+Freestyle,frac_2,GBR,"{'model__learning_rate': 0.1, 'model__n_estimators': 100}",0.9998867955175011,3.57427629763549e-06
+Freestyle,frac_20,Ridge,{'model__alpha': 0.1},0.0,1.5852440136225758e-08
+Freestyle,frac_21,Ridge,{'model__alpha': 0.1},0.0,1.2104395266390137e-08
+Freestyle,frac_22,Ridge,{'model__alpha': 0.1},0.0,1.202243271136594e-08
+Freestyle,frac_23,Ridge,{'model__alpha': 0.1},0.0,1.1919455483054742e-08
+Freestyle,frac_24,Ridge,{'model__alpha': 0.1},0.0,1.7149887415871123e-08
+Freestyle,frac_25,Ridge,{'model__alpha': 0.1},0.0,3.0218453715648795e-08
+Freestyle,frac_26,Ridge,{'model__alpha': 0.1},0.0,1.4024195867334521e-07
+Freestyle,frac_27,Ridge,{'model__alpha': 0.1},0.0,6.314455592110409e-07
+Freestyle,frac_28,Ridge,{'model__alpha': 0.1},0.0,8.880265920459282e-07
+Freestyle,frac_29,Ridge,{'model__alpha': 0.1},0.0,8.688721906725003e-07
+Freestyle,frac_3,GBR,"{'model__learning_rate': 0.1, 'model__n_estimators': 100}",0.9998709600381422,9.556862590077076e-07
+Freestyle,frac_30,Ridge,{'model__alpha': 0.1},0.0,8.309361340034765e-07
+Freestyle,frac_4,GBR,"{'model__learning_rate': 0.1, 'model__n_estimators': 100}",0.9999064518848968,6.696272014015025e-07
+Freestyle,frac_5,RandomForest,"{'model__max_depth': 3, 'model__n_estimators': 100}",0.9999709211876188,4.2780859101891336e-08
+Freestyle,frac_6,RandomForest,"{'model__max_depth': 3, 'model__n_estimators': 100}",0.9999532784999926,6.87564897870968e-08
+Freestyle,frac_7,RandomForest,"{'model__max_depth': 3, 'model__n_estimators': 100}",0.9999334164741176,9.807550310729845e-08
+Freestyle,frac_8,RandomForest,"{'model__max_depth': 3, 'model__n_estimators': 50}",0.9992697709056444,1.1442479334816152e-06
+Freestyle,frac_9,GBR,"{'model__learning_rate': 0.1, 'model__n_estimators': 100}",0.9998878635463874,2.3983271145407182e-08
+Backstroke,frac_1,RandomForest,"{'model__max_depth': 3, 'model__n_estimators': 50}",0.9994268075799432,8.867917637670797e-06
+Backstroke,frac_2,GBR,"{'model__learning_rate': 0.1, 'model__n_estimators': 100}",0.9995320930324364,7.929250320901907e-06
+Backstroke,frac_3,Ridge,{'model__alpha': 0.1},0.0,8.36422372652802e-06
+Backstroke,frac_4,Ridge,{'model__alpha': 0.1},0.0,1.756630052177816e-05
+Breaststroke,frac_1,GBR,"{'model__learning_rate': 0.1, 'model__n_estimators': 100}",0.9988548437938534,1.6389929209266215e-05
+Breaststroke,frac_2,GBR,"{'model__learning_rate': 0.1, 'model__n_estimators': 100}",0.9990713463228648,1.8044181130454614e-05
+Breaststroke,frac_3,Ridge,{'model__alpha': 0.1},0.0,3.1925173522318018e-06
+Breaststroke,frac_4,Ridge,{'model__alpha': 0.1},0.0,1.0488003264994874e-05
+Butterfly,frac_1,RandomForest,"{'model__max_depth': 3, 'model__n_estimators': 50}",0.9987736496840494,1.8391454265397885e-05
+Butterfly,frac_2,RandomForest,"{'model__max_depth': 3, 'model__n_estimators': 100}",0.9991241698770432,1.6971678700986156e-05
+Butterfly,frac_3,Ridge,{'model__alpha': 0.1},0.0,6.019565155644881e-06
+Butterfly,frac_4,Ridge,{'model__alpha': 0.1},0.0,2.3645284938661704e-05
+IM,frac_1,RandomForest,"{'model__max_depth': 3, 'model__n_estimators': 50}",0.9977444968117418,6.883277693457198e-06
+IM,frac_2,RandomForest,"{'model__max_depth': 3, 'model__n_estimators': 100}",0.9974358107136986,1.1070725017522065e-05
+IM,frac_3,GBR,"{'model__learning_rate': 0.1, 'model__n_estimators': 100}",0.9965213315108744,2.2576616555748427e-05
+IM,frac_4,GBR,"{'model__learning_rate': 0.1, 'model__n_estimators': 100}",0.9977884821132098,7.467268845815134e-06
+IM,frac_5,Ridge,{'model__alpha': 0.1},0.0,7.963029513171503e-06
+IM,frac_6,Ridge,{'model__alpha': 0.1},0.0,1.4448839049173334e-05
+IM,frac_7,Ridge,{'model__alpha': 0.1},0.0,9.62360429367415e-06
+IM,frac_8,Ridge,{'model__alpha': 0.1},0.0,9.857673151697714e-06

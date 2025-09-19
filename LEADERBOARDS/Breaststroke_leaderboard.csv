@@ -1,0 +1,21 @@
+Target,Model,BestParams,R2,MSE
+frac_1,GBR,"{'model__learning_rate': 0.1, 'model__n_estimators': 100}",0.9988548437938534,1.6389929209266215e-05
+frac_1,RandomForest,"{'model__max_depth': 3, 'model__n_estimators': 100}",0.9988548008442032,1.639054392167251e-05
+frac_1,Ridge,{'model__alpha': 0.1},0.9988301209807073,1.6743771903514393e-05
+frac_1,Lasso,{'model__alpha': 0.001},0.99878497499567,1.7389919123320773e-05
+frac_1,SVR,"{'model__C': 0.1, 'model__kernel': 'linear'}",0.386654684161167,0.008778441101289147
+frac_2,GBR,"{'model__learning_rate': 0.1, 'model__n_estimators': 100}",0.9990713463228649,1.8044181130454618e-05
+frac_2,RandomForest,"{'model__max_depth': 3, 'model__n_estimators': 50}",0.9990706929422706,1.8056876625105627e-05
+frac_2,Ridge,{'model__alpha': 0.1},0.9990466181510307,1.8524661230395946e-05
+frac_2,Lasso,{'model__alpha': 0.001},0.9990198814793272,1.904416743483185e-05
+frac_2,SVR,"{'model__C': 0.1, 'model__kernel': 'linear'}",0.5517932051375859,0.008708870475103133
+frac_3,Ridge,{'model__alpha': 0.1},0.0,3.1925173522318018e-06
+frac_3,Lasso,{'model__alpha': 0.001},0.0,3.1925173522318018e-06
+frac_3,GBR,"{'model__learning_rate': 0.05, 'model__n_estimators': 50}",0.0,3.1925173522318018e-06
+frac_3,RandomForest,"{'model__max_depth': 3, 'model__n_estimators': 50}",-0.0010509262777593786,3.1958724526094654e-06
+frac_3,SVR,"{'model__C': 0.1, 'model__kernel': 'linear'}",-0.0024605091502194476,3.2003725703892024e-06
+frac_4,Ridge,{'model__alpha': 0.1},0.0,1.0488003264994874e-05
+frac_4,Lasso,{'model__alpha': 0.001},0.0,1.0488003264994874e-05
+frac_4,GBR,"{'model__learning_rate': 0.05, 'model__n_estimators': 50}",0.0,1.0488003264994874e-05
+frac_4,RandomForest,"{'model__max_depth': 3, 'model__n_estimators': 50}",-0.00028064793987092607,1.0490946701504556e-05
+frac_4,SVR,"{'model__C': 0.1, 'model__kernel': 'linear'}",-0.3276111562929198,1.3923990141843763e-05
