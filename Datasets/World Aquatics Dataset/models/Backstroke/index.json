@@ -18,10 +18,10 @@
     "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/datasets/backstroke_dataset.csv",
     "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/models/Backstroke/frac_1_RandomForest.joblib",
     "cv_metrics": {
-      "r2_mean": 0.9994095478501656,
-      "r2_std": 0.00030745279734417544,
-      "mse_mean": 1.0192062217886962e-05,
-      "mse_std": 7.626390892596021e-06
+      "r2_mean": 0.9991287031393602,
+      "r2_std": 0.0005157114179235293,
+      "mse_mean": 9.017366410503943e-06,
+      "mse_std": 4.951023940268946e-06
     }
   },
   {
@@ -43,10 +43,10 @@
     "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/datasets/backstroke_dataset.csv",
     "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/models/Backstroke/frac_2_GBR.joblib",
     "cv_metrics": {
-      "r2_mean": 0.9996852338134957,
-      "r2_std": 0.0002652026834959433,
-      "mse_mean": 5.3605669491221695e-06,
-      "mse_std": 4.443286638025213e-06
+      "r2_mean": 0.9996849227560951,
+      "r2_std": 0.0002653329069974298,
+      "mse_mean": 5.3122560530927e-06,
+      "mse_std": 4.428567186458007e-06
     }
   },
   {

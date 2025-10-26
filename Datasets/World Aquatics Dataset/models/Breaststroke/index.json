@@ -18,10 +18,10 @@
     "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/datasets/breaststroke_dataset.csv",
     "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/models/Breaststroke/frac_1_GBR.joblib",
     "cv_metrics": {
-      "r2_mean": 0.998521433875152,
-      "r2_std": 0.0003466801198872782,
-      "mse_mean": 2.161596757130316e-05,
-      "mse_std": 5.425204489713958e-06
+      "r2_mean": 0.9985378500337465,
+      "r2_std": 0.0003564073538930797,
+      "mse_mean": 2.1608732671286102e-05,
+      "mse_std": 5.460842115901572e-06
     }
   },
   {
@@ -43,10 +43,10 @@
     "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/datasets/breaststroke_dataset.csv",
     "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/models/Breaststroke/frac_2_GBR.joblib",
     "cv_metrics": {
-      "r2_mean": 0.9991180525846962,
-      "r2_std": 0.0002645252134194755,
-      "mse_mean": 1.6970254764596506e-05,
-      "mse_std": 5.003486595298822e-06
+      "r2_mean": 0.9991327061688031,
+      "r2_std": 0.0002565723356919776,
+      "mse_mean": 1.6913563928514368e-05,
+      "mse_std": 5.022359286329515e-06
     }
   },
   {

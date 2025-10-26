@@ -18,10 +18,10 @@
     "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/datasets/im_dataset.csv",
     "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/models/IM/frac_1_RandomForest.joblib",
     "cv_metrics": {
-      "r2_mean": 0.9950611392979276,
-      "r2_std": 0.004588384415153216,
-      "mse_mean": 1.337401177862395e-05,
-      "mse_std": 1.2510261579640448e-05
+      "r2_mean": 0.9942760762307673,
+      "r2_std": 0.005565629090982851,
+      "mse_mean": 1.3934454446940534e-05,
+      "mse_std": 1.4076972045529814e-05
     }
   },
   {
@@ -43,10 +43,10 @@
     "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/datasets/im_dataset.csv",
     "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/models/IM/frac_2_RandomForest.joblib",
     "cv_metrics": {
-      "r2_mean": 0.9981490038518711,
-      "r2_std": 0.0014086686459435901,
-      "mse_mean": 7.198316899590058e-06,
-      "mse_std": 5.298786178200768e-06
+      "r2_mean": 0.9981309353037172,
+      "r2_std": 0.0013066428622536372,
+      "mse_mean": 7.988821199952494e-06,
+      "mse_std": 6.358750706324141e-06
     }
   },
   {
@@ -68,10 +68,10 @@
     "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/datasets/im_dataset.csv",
     "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/models/IM/frac_3_GBR.joblib",
     "cv_metrics": {
-      "r2_mean": 0.9940142382899293,
-      "r2_std": 0.004400608020493482,
-      "mse_mean": 3.352496203484698e-05,
-      "mse_std": 2.3357705510704677e-05
+      "r2_mean": 0.9941271950165438,
+      "r2_std": 0.004475124708071979,
+      "mse_mean": 3.39775677799126e-05,
+      "mse_std": 2.3042810088404212e-05
     }
   },
   {
@@ -93,10 +93,10 @@
     "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/datasets/im_dataset.csv",
     "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/models/IM/frac_4_GBR.joblib",
     "cv_metrics": {
-      "r2_mean": 0.99525533940173,
-      "r2_std": 0.002655775306541618,
-      "mse_mean": 1.429149467193753e-05,
-      "mse_std": 7.668949315285945e-06
+      "r2_mean": 0.9952474220652116,
+      "r2_std": 0.0026493631248252045,
+      "mse_mean": 1.422677988615261e-05,
+      "mse_std": 7.60851082615665e-06
     }
   },
   {
