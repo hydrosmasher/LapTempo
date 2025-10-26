@@ -1,0 +1,100 @@
+[
+  {
+    "stroke": "Breaststroke",
+    "target": "frac_1",
+    "model": "GBR",
+    "bestparams": {
+      "model__learning_rate": 0.1,
+      "model__n_estimators": 100
+    },
+    "features": [
+      "Distance",
+      "Final time in seconds",
+      "athlete age",
+      "pool_len",
+      "strategy_code",
+      "final_time_sec"
+    ],
+    "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/datasets/breaststroke_dataset.csv",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/models/Breaststroke/frac_1_GBR.joblib",
+    "cv_metrics": {
+      "r2_mean": 0.998521433875152,
+      "r2_std": 0.0003466801198872782,
+      "mse_mean": 2.161596757130316e-05,
+      "mse_std": 5.425204489713958e-06
+    }
+  },
+  {
+    "stroke": "Breaststroke",
+    "target": "frac_2",
+    "model": "GBR",
+    "bestparams": {
+      "model__learning_rate": 0.1,
+      "model__n_estimators": 100
+    },
+    "features": [
+      "Distance",
+      "Final time in seconds",
+      "athlete age",
+      "pool_len",
+      "strategy_code",
+      "final_time_sec"
+    ],
+    "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/datasets/breaststroke_dataset.csv",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/models/Breaststroke/frac_2_GBR.joblib",
+    "cv_metrics": {
+      "r2_mean": 0.9991180525846962,
+      "r2_std": 0.0002645252134194755,
+      "mse_mean": 1.6970254764596506e-05,
+      "mse_std": 5.003486595298822e-06
+    }
+  },
+  {
+    "stroke": "Breaststroke",
+    "target": "frac_3",
+    "model": "Ridge",
+    "bestparams": {
+      "model__alpha": 0.1
+    },
+    "features": [
+      "Distance",
+      "Final time in seconds",
+      "athlete age",
+      "pool_len",
+      "strategy_code",
+      "final_time_sec"
+    ],
+    "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/datasets/breaststroke_dataset.csv",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/models/Breaststroke/frac_3_Ridge.joblib",
+    "cv_metrics": {
+      "r2_mean": -28.043161038512245,
+      "r2_std": 43.14181828152337,
+      "mse_mean": 3.7266480116328046e-06,
+      "mse_std": 3.071066835541381e-06
+    }
+  },
+  {
+    "stroke": "Breaststroke",
+    "target": "frac_4",
+    "model": "Ridge",
+    "bestparams": {
+      "model__alpha": 0.1
+    },
+    "features": [
+      "Distance",
+      "Final time in seconds",
+      "athlete age",
+      "pool_len",
+      "strategy_code",
+      "final_time_sec"
+    ],
+    "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/datasets/breaststroke_dataset.csv",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/models/Breaststroke/frac_4_Ridge.joblib",
+    "cv_metrics": {
+      "r2_mean": -2.498033945963418,
+      "r2_std": 3.552855944127505,
+      "mse_mean": 1.1474051595290881e-05,
+      "mse_std": 7.980698115207334e-06
+    }
+  }
+]

@@ -1,0 +1,100 @@
+[
+  {
+    "stroke": "Backstroke",
+    "target": "frac_1",
+    "model": "RandomForest",
+    "bestparams": {
+      "model__max_depth": 3,
+      "model__n_estimators": 50
+    },
+    "features": [
+      "Distance",
+      "Final time in seconds",
+      "athlete age",
+      "pool_len",
+      "strategy_code",
+      "final_time_sec"
+    ],
+    "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/datasets/backstroke_dataset.csv",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/models/Backstroke/frac_1_RandomForest.joblib",
+    "cv_metrics": {
+      "r2_mean": 0.9994095478501656,
+      "r2_std": 0.00030745279734417544,
+      "mse_mean": 1.0192062217886962e-05,
+      "mse_std": 7.626390892596021e-06
+    }
+  },
+  {
+    "stroke": "Backstroke",
+    "target": "frac_2",
+    "model": "GBR",
+    "bestparams": {
+      "model__learning_rate": 0.1,
+      "model__n_estimators": 100
+    },
+    "features": [
+      "Distance",
+      "Final time in seconds",
+      "athlete age",
+      "pool_len",
+      "strategy_code",
+      "final_time_sec"
+    ],
+    "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/datasets/backstroke_dataset.csv",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/models/Backstroke/frac_2_GBR.joblib",
+    "cv_metrics": {
+      "r2_mean": 0.9996852338134957,
+      "r2_std": 0.0002652026834959433,
+      "mse_mean": 5.3605669491221695e-06,
+      "mse_std": 4.443286638025213e-06
+    }
+  },
+  {
+    "stroke": "Backstroke",
+    "target": "frac_3",
+    "model": "Ridge",
+    "bestparams": {
+      "model__alpha": 0.1
+    },
+    "features": [
+      "Distance",
+      "Final time in seconds",
+      "athlete age",
+      "pool_len",
+      "strategy_code",
+      "final_time_sec"
+    ],
+    "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/datasets/backstroke_dataset.csv",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/models/Backstroke/frac_3_Ridge.joblib",
+    "cv_metrics": {
+      "r2_mean": -12.999976121471784,
+      "r2_std": 8.39759835126882,
+      "mse_mean": 1.2132710327679235e-05,
+      "mse_std": 6.6189291207628565e-06
+    }
+  },
+  {
+    "stroke": "Backstroke",
+    "target": "frac_4",
+    "model": "Ridge",
+    "bestparams": {
+      "model__alpha": 0.1
+    },
+    "features": [
+      "Distance",
+      "Final time in seconds",
+      "athlete age",
+      "pool_len",
+      "strategy_code",
+      "final_time_sec"
+    ],
+    "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/datasets/backstroke_dataset.csv",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/models/Backstroke/frac_4_Ridge.joblib",
+    "cv_metrics": {
+      "r2_mean": -1.1843478619980625,
+      "r2_std": 1.634494993803791,
+      "mse_mean": 4.088101621275382e-05,
+      "mse_std": 4.6607202234119204e-05
+    }
+  }
+]
