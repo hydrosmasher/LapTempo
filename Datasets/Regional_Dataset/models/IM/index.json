@@ -1,0 +1,90 @@
+[
+  {
+    "target": "frac_1",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/IM/IM_frac_1.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_2",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/IM/IM_frac_2.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_3",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/IM/IM_frac_3.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_4",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/IM/IM_frac_4.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_5",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/IM/IM_frac_5.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_6",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/IM/IM_frac_6.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_7",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/IM/IM_frac_7.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_8",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/IM/IM_frac_8.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  }
+]

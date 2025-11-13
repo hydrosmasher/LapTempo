@@ -1,0 +1,46 @@
+[
+  {
+    "target": "frac_1",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Backstroke/Backstroke_frac_1.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_2",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Backstroke/Backstroke_frac_2.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_3",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Backstroke/Backstroke_frac_3.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_4",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Backstroke/Backstroke_frac_4.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  }
+]

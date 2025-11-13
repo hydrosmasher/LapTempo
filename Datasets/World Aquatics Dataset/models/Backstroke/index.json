@@ -15,13 +15,13 @@
       "strategy_code",
       "final_time_sec"
     ],
-    "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/datasets/backstroke_dataset.csv",
-    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/models/Backstroke/frac_1_RandomForest.joblib",
+    "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/World Aquatics Dataset/datasets/backstroke_dataset.csv",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/World Aquatics Dataset/models/Backstroke/frac_1_RandomForest.joblib",
     "cv_metrics": {
-      "r2_mean": 0.9991287031393602,
-      "r2_std": 0.0005157114179235293,
-      "mse_mean": 9.017366410503943e-06,
-      "mse_std": 4.951023940268946e-06
+      "r2_mean": 0.9994462455694313,
+      "r2_std": 0.0003547817986010867,
+      "mse_mean": 9.069365241533755e-06,
+      "mse_std": 5.324402783416286e-06
     }
   },
   {
@@ -40,13 +40,13 @@
       "strategy_code",
       "final_time_sec"
     ],
-    "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/datasets/backstroke_dataset.csv",
-    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/models/Backstroke/frac_2_GBR.joblib",
+    "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/World Aquatics Dataset/datasets/backstroke_dataset.csv",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/World Aquatics Dataset/models/Backstroke/frac_2_GBR.joblib",
     "cv_metrics": {
-      "r2_mean": 0.9996849227560951,
-      "r2_std": 0.0002653329069974298,
-      "mse_mean": 5.3122560530927e-06,
-      "mse_std": 4.428567186458007e-06
+      "r2_mean": 0.9996774316880733,
+      "r2_std": 0.0002661344184649635,
+      "mse_mean": 5.40451286139116e-06,
+      "mse_std": 4.437342565861015e-06
     }
   },
   {
@@ -64,8 +64,8 @@
       "strategy_code",
       "final_time_sec"
     ],
-    "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/datasets/backstroke_dataset.csv",
-    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/models/Backstroke/frac_3_Ridge.joblib",
+    "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/World Aquatics Dataset/datasets/backstroke_dataset.csv",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/World Aquatics Dataset/models/Backstroke/frac_3_Ridge.joblib",
     "cv_metrics": {
       "r2_mean": -12.999976121471784,
       "r2_std": 8.39759835126882,
@@ -88,8 +88,8 @@
       "strategy_code",
       "final_time_sec"
     ],
-    "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/datasets/backstroke_dataset.csv",
-    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/models/Backstroke/frac_4_Ridge.joblib",
+    "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/World Aquatics Dataset/datasets/backstroke_dataset.csv",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/World Aquatics Dataset/models/Backstroke/frac_4_Ridge.joblib",
     "cv_metrics": {
       "r2_mean": -1.1843478619980625,
       "r2_std": 1.634494993803791,

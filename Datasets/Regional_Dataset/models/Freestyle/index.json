@@ -1,0 +1,332 @@
+[
+  {
+    "target": "frac_1",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Freestyle/Freestyle_frac_1.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_2",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Freestyle/Freestyle_frac_2.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_3",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Freestyle/Freestyle_frac_3.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_4",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Freestyle/Freestyle_frac_4.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_5",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Freestyle/Freestyle_frac_5.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_6",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Freestyle/Freestyle_frac_6.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_7",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Freestyle/Freestyle_frac_7.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_8",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Freestyle/Freestyle_frac_8.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_9",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Freestyle/Freestyle_frac_9.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_10",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Freestyle/Freestyle_frac_10.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_11",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Freestyle/Freestyle_frac_11.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_12",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Freestyle/Freestyle_frac_12.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_13",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Freestyle/Freestyle_frac_13.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_14",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Freestyle/Freestyle_frac_14.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_15",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Freestyle/Freestyle_frac_15.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_16",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Freestyle/Freestyle_frac_16.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_17",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Freestyle/Freestyle_frac_17.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_18",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Freestyle/Freestyle_frac_18.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_19",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Freestyle/Freestyle_frac_19.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_20",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Freestyle/Freestyle_frac_20.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_21",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Freestyle/Freestyle_frac_21.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_22",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Freestyle/Freestyle_frac_22.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_23",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Freestyle/Freestyle_frac_23.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_24",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Freestyle/Freestyle_frac_24.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_25",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Freestyle/Freestyle_frac_25.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_26",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Freestyle/Freestyle_frac_26.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_27",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Freestyle/Freestyle_frac_27.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_28",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Freestyle/Freestyle_frac_28.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_29",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Freestyle/Freestyle_frac_29.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  },
+  {
+    "target": "frac_30",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/Regional_Dataset/models/Freestyle/Freestyle_frac_30.joblib",
+    "features": [
+      "Distance",
+      "final_time_sec",
+      "athlete_age",
+      "pool",
+      "Strategy"
+    ]
+  }
+]

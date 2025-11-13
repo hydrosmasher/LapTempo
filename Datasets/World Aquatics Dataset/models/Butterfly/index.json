@@ -15,13 +15,13 @@
       "strategy_code",
       "final_time_sec"
     ],
-    "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/datasets/butterfly_dataset.csv",
-    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/models/Butterfly/frac_1_RandomForest.joblib",
+    "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/World Aquatics Dataset/datasets/butterfly_dataset.csv",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/World Aquatics Dataset/models/Butterfly/frac_1_RandomForest.joblib",
     "cv_metrics": {
-      "r2_mean": 0.9969558574130047,
-      "r2_std": 0.0016123028370384133,
-      "mse_mean": 3.49994051857861e-05,
-      "mse_std": 1.651992223811402e-05
+      "r2_mean": 0.9971823451716461,
+      "r2_std": 0.0015507287313362966,
+      "mse_mean": 3.209970088725511e-05,
+      "mse_std": 1.2013218124336576e-05
     }
   },
   {
@@ -40,13 +40,13 @@
       "strategy_code",
       "final_time_sec"
     ],
-    "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/datasets/butterfly_dataset.csv",
-    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/models/Butterfly/frac_2_RandomForest.joblib",
+    "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/World Aquatics Dataset/datasets/butterfly_dataset.csv",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/World Aquatics Dataset/models/Butterfly/frac_2_RandomForest.joblib",
     "cv_metrics": {
-      "r2_mean": 0.9981614695809569,
-      "r2_std": 0.0007668701227271016,
-      "mse_mean": 2.979397816990081e-05,
-      "mse_std": 1.2938034160292515e-05
+      "r2_mean": 0.9979138198628359,
+      "r2_std": 0.00043478918310725347,
+      "mse_mean": 3.010015498464763e-05,
+      "mse_std": 1.2737021048211629e-05
     }
   },
   {
@@ -64,8 +64,8 @@
       "strategy_code",
       "final_time_sec"
     ],
-    "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/datasets/butterfly_dataset.csv",
-    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/models/Butterfly/frac_3_Ridge.joblib",
+    "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/World Aquatics Dataset/datasets/butterfly_dataset.csv",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/World Aquatics Dataset/models/Butterfly/frac_3_Ridge.joblib",
     "cv_metrics": {
       "r2_mean": -6.827198814319056,
       "r2_std": 8.918210839396464,
@@ -88,8 +88,8 @@
       "strategy_code",
       "final_time_sec"
     ],
-    "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/datasets/butterfly_dataset.csv",
-    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/LapTempo/Datasets/World Aquatics Dataset/models/Butterfly/frac_4_Ridge.joblib",
+    "dataset": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/World Aquatics Dataset/datasets/butterfly_dataset.csv",
+    "model_path": "/Users/hrishikeshkarmalkar/Desktop/LapTempo/Datasets/World Aquatics Dataset/models/Butterfly/frac_4_Ridge.joblib",
     "cv_metrics": {
       "r2_mean": -39.62032867907392,
       "r2_std": 68.63320685064217,
